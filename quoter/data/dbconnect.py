@@ -25,9 +25,13 @@ def all_quotes():
     response = []
     quotes = command.execute(query_all_command)
     for quote in quotes:
-        response.append(Quote(quote[1], quote[2], quote[3], quote[0]))
+        response.append(_create_quote(quote))
     return response
+
+def _create_quote(row):
+    return Quote(row[1], row[2], row[3], row[0])
 
 def reset_db():
     command.execute(drop_table_command)
     command.execute(create_table_command)
+
