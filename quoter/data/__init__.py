@@ -1,1 +1,1 @@
-from .dbconnect import insert_quote, all_quotes
+from .dbconnect import insert_quote, all_quotes, reset_db
