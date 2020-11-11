@@ -41,13 +41,16 @@ def query_author(author: str):
 def reset_db():
     command.execute(drop_table_command)
     command.execute(create_table_command)
+    conn.commit()
 
 def execute_command(request, params=[]):
     try:
         if len(params) > 0:
-            return command.execute(request, params)
+            res = command.execute(request, params)
         else:
-            return command.execute(request)
+            res = command.execute(request)
+        conn.commit()
+        return res
     except sqlite3.OperationalError:
         print('Data Error, resetting Table')
         reset_db()
