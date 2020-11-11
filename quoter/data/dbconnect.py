@@ -17,6 +17,7 @@ command.execute(create_table_command)
 insert_quote_command = "INSERT INTO quotes(quote, author, date) VALUES (?, ?, ?)"
 query_all_command = 'SELECT * FROM quotes;'
 drop_table_command = 'DROP TABLE IF EXISTS quotes'
+query_author_command = 'SELECT * FROM quotes WHERE author LIKE ?'
 
 def insert_quote(quote: Quote):
     execute_command(insert_quote_command, params=[quote.quote, quote.author, quote.date])
@@ -28,8 +29,14 @@ def all_quotes():
         response.append(_create_quote(quote))
     return response
 
-def _create_quote(row):
-    return Quote(row[1], row[2], row[3], row[0])
+def query_author(author: str):
+    response = []
+    quotes = execute_command(query_author_command, [author])
+    for quote in quotes:
+        response.append(_create_quote(quote))
+    return response
+
+
 
 def reset_db():
     command.execute(drop_table_command)
@@ -42,5 +49,10 @@ def execute_command(request, params=[]):
         else:
             return command.execute(request)
     except sqlite3.OperationalError:
+        print('Data Error, resetting Table')
         reset_db()
         return []
+
+def _create_quote(row):
+    return Quote(row[1], row[2], row[3], row[0])
+
