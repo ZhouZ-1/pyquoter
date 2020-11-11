@@ -20,7 +20,7 @@ drop_table_command = 'DROP TABLE IF EXISTS quotes'
 query_author_command = 'SELECT * FROM quotes WHERE author LIKE ?'
 
 def insert_quote(quote: Quote):
-    execute_command(insert_quote_command, params=[quote.quote, quote.author, quote.date])
+    execute_command(insert_quote_command, params=(quote.quote, quote.author, quote.date))
 
 def all_quotes():
     response = []
@@ -31,7 +31,7 @@ def all_quotes():
 
 def query_author(author: str):
     response = []
-    quotes = execute_command(query_author_command, [author])
+    quotes = execute_command(query_author_command, ('%' + author + '%',))
     for quote in quotes:
         response.append(_create_quote(quote))
     return response
@@ -43,7 +43,7 @@ def reset_db():
     command.execute(create_table_command)
     conn.commit()
 
-def execute_command(request, params=[]):
+def execute_command(request, params=()):
     try:
         if len(params) > 0:
             res = command.execute(request, params)
