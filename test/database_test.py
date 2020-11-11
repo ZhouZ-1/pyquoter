@@ -23,12 +23,20 @@ class TestDataBase(unittest.TestCase):
         reset_db()
         quote = Quote('test_quote1', 'test_author1', '2000-01-01 10:00:00')
         insert_quote(quote)
+        quote = Quote('test_quote1', 'test_author2', '2000-01-01 10:00:00')
+        insert_quote(quote)
+        authors = query_author('test_author1')
+        self.assertEqual(len(authors), 1)
+
+        reset_db()
+        quote = Quote('test_quote1', 'test_author1', '2000-01-01 10:00:00')
+        insert_quote(quote)
         quote = Quote('test_quote2', 'test_author2', '2000-01-01 10:00:00')
         insert_quote(quote)
         quote = Quote('test_quote3', 'test_author2', '2000-01-01 10:00:00')
         insert_quote(quote)
-        authors = query_author('test_author2')
-        self.assertTrue(len(authors) == 2)
+        authors = query_author('author')
+        self.assertEqual(len(authors), 3)
 
 if __name__ == '__main__':
     unittest.main()
