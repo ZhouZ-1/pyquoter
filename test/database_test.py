@@ -1,6 +1,4 @@
 import unittest
-import os
-import sys
 
 from quoter.data import *
 from quoter.model import *
