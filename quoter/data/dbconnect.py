@@ -19,11 +19,11 @@ query_all_command = 'SELECT * FROM quotes;'
 drop_table_command = 'DROP TABLE IF EXISTS quotes'
 
 def insert_quote(quote: Quote):
-    command.execute(insert_quote_command,
-                    [quote.quote, quote.author, quote.date])
+    execute_command(insert_quote_command, params=[quote.quote, quote.author, quote.date])
+
 def all_quotes():
     response = []
-    quotes = command.execute(query_all_command)
+    quotes = execute_command(query_all_command)
     for quote in quotes:
         response.append(_create_quote(quote))
     return response
@@ -35,3 +35,12 @@ def reset_db():
     command.execute(drop_table_command)
     command.execute(create_table_command)
 
+def execute_command(request, params=[]):
+    try:
+        if len(params) > 0:
+            return command.execute(request, params)
+        else:
+            return command.execute(request)
+    except sqlite3.OperationalError:
+        reset_db()
+        return []
