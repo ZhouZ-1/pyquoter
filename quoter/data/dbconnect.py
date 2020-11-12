@@ -7,10 +7,10 @@ conn = sqlite3.connect(path + '/data.db')
 command = conn.cursor()
 
 create_table_command = '''CREATE TABLE IF NOT EXISTS quotes (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                quote_id INTEGER PRIMARY KEY AUTOINCREMENT,
                 quote TEXT,
                 author TEXT,
-                date DATE)
+                date DATE);
                 '''
 command.execute(create_table_command)
 
@@ -19,9 +19,13 @@ query_all_command = 'SELECT * FROM quotes;'
 drop_table_command = 'DROP TABLE IF EXISTS quotes'
 query_author_command = 'SELECT * FROM quotes WHERE author LIKE ?'
 query_quote_command = 'SELECT * FROM quotes WHERE quote LIKE ?'
+delete_quote_command = 'DELETE FROM quotes WHERE quote_id=?'
 
 def insert_quote(quote: Quote):
     execute_command(insert_quote_command, params=(quote.quote, quote.author, quote.date))
+
+def delete_quote_id(quote_id: int):
+    execute_command(delete_quote_command, (quote_id,))
 
 def all_quotes():
     response = []
