@@ -7,7 +7,7 @@ conn = sqlite3.connect(path + '/data.db')
 command = conn.cursor()
 
 create_table_command = '''CREATE TABLE IF NOT EXISTS quotes (
-                id INTEGER PRIMARY KEY,
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
                 quote TEXT,
                 author TEXT,
                 date DATE)
