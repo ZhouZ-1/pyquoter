@@ -36,5 +36,18 @@ class TestDataBase(unittest.TestCase):
         authors = query_author('author')
         self.assertEqual(len(authors), 3)
 
+    def test_query_quote(self):
+        reset_db()
+        quote = Quote('test_quote1', 'test_author1', '2000-01-01 10:00:00')
+        insert_quote(quote)
+        quote = Quote('test_quote2', 'test_author2', '2000-01-01 10:00:00')
+        insert_quote(quote)
+        quote = Quote('test_quote3', 'test_author2', '2000-01-01 10:00:00')
+        insert_quote(quote)
+        quotes = query_quotes('quote')
+        self.assertEqual(len(quotes), 3)
+        quotes = query_quotes('quote3')
+        self.assertEqual(len(quotes), 1)
+
 if __name__ == '__main__':
     unittest.main()
