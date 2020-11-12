@@ -12,11 +12,19 @@ create_table_command = '''CREATE TABLE IF NOT EXISTS quotes (
                 author TEXT,
                 date DATE);
                 '''
+create_tags_command = '''CREATE TABLE IF NOT EXISTS tags (
+                tag_id INTEGER PRIMARY KEY,
+                tag TEXT NOT NULL,
+                quote_id INTEGER REFERENCES quotes(quote_id) ON DELETE CASCADE
+                );
+                '''
 command.execute(create_table_command)
+command.execute(create_tags_command)
 
 insert_quote_command = "INSERT INTO quotes(quote, author, date) VALUES (?, ?, ?)"
 query_all_command = 'SELECT * FROM quotes;'
-drop_table_command = 'DROP TABLE IF EXISTS quotes'
+drop_table_command = 'DROP TABLE IF EXISTS quotes;'
+drop_tags_command = 'DROP TABLE IF EXISTS tags'
 query_author_command = 'SELECT * FROM quotes WHERE author LIKE ?'
 query_quote_command = 'SELECT * FROM quotes WHERE quote LIKE ?'
 delete_quote_command = 'DELETE FROM quotes WHERE quote_id=?'
@@ -50,7 +58,9 @@ def query_quotes(quote: str):
 
 def reset_db():
     command.execute(drop_table_command)
+    command.execute(drop_tags_command)
     command.execute(create_table_command)
+    command.execute(create_tags_command)
     conn.commit()
 
 def execute_command(request, params=()):
