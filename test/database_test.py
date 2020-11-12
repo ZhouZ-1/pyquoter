@@ -31,6 +31,14 @@ class TestDataBase(unittest.TestCase):
         quotes = query_quotes('quote2')
         self.assertEqual(len(quotes), 1)
 
+    def test_delete_quote(self):
+        create_dummy_data(4)
+        delete_quote_id(2)
+        quotes = all_quotes()
+        self.assertEqual(len(quotes), 3)
+        quotes = query_quotes('quote1')
+        self.assertEqual(len(quotes), 0)
+
 def create_dummy_data(num: int):
     reset_db()
     for i in range(num):
