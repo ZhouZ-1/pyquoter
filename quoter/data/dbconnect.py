@@ -7,13 +7,13 @@ conn = sqlite3.connect(path + '/data.db')
 command = conn.cursor()
 
 create_table_command = '''CREATE TABLE IF NOT EXISTS quotes (
-                quote_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
                 quote TEXT,
                 author TEXT,
                 date DATE);
                 '''
 create_tags_command = '''CREATE TABLE IF NOT EXISTS tags (
-                tag_id INTEGER PRIMARY KEY,
+                id INTEGER PRIMARY KEY,
                 tag TEXT NOT NULL,
                 quote_id INTEGER REFERENCES quotes(quote_id) ON DELETE CASCADE
                 );
