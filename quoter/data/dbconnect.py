@@ -22,15 +22,22 @@ command.execute(create_table_command)
 command.execute(create_tags_command)
 
 insert_quote_command = "INSERT INTO quotes(quote, author, date) VALUES (?, ?, ?)"
+insert_tag_command = "INSERT INTO tags(tag, quote_id) VALUES (?, ?)"
 query_all_command = 'SELECT * FROM quotes;'
 drop_table_command = 'DROP TABLE IF EXISTS quotes;'
 drop_tags_command = 'DROP TABLE IF EXISTS tags'
 query_author_command = 'SELECT * FROM quotes WHERE author LIKE ?'
 query_quote_command = 'SELECT * FROM quotes WHERE quote LIKE ?'
-delete_quote_command = 'DELETE FROM quotes WHERE quote_id=?'
+select_last_id_command = 'SELECT last_insert_rowid() FROM quotes'
+delete_quote_command = 'DELETE FROM quotes WHERE id=?'
 
 def insert_quote(quote: Quote):
     execute_command(insert_quote_command, params=(quote.quote, quote.author, quote.date))
+    quote.quote_id = execute_command(select_last_id_command).lastrowid
+    tags = quote.tags;
+    for t in tags:
+        print('Adding tag: ' + t)
+        execute_command(insert_tag_command, (t, quote.quote_id))
 
 def delete_quote_id(quote_id: int):
     execute_command(delete_quote_command, (quote_id,))
@@ -72,7 +79,7 @@ def execute_command(request, params=()):
         conn.commit()
         return res
     except sqlite3.OperationalError:
-        print('Data Error, resetting Table')
+        print('Data Error for command %s, resetting Table' % request)
         reset_db()
         return []
 
