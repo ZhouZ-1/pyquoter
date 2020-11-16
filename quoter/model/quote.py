@@ -6,3 +6,14 @@ class Quote:
         self.tags = tags
         self.quote_id = quote_id
 
+    def __str__(self):
+        return self.quote
+
+    def __repr__(self):
+        return '''
+ID: %d
+Quote: %s
+Author: %s
+Date: %s
+''' % (self.quote_id, self.quote, self.author, self.date)
+
