@@ -1,4 +1,5 @@
 import sqlite3
+import datetime
 import os
 from ..model import Quote
 
@@ -111,5 +112,6 @@ def execute_command(request, params=()):
         return []
 
 def _create_quote(row):
-    return Quote(row[1], row[2], row[3], row[0])
+    date = datetime.datetime.fromisoformat(row[3]).date()
+    return Quote(row[1], row[2], date, row[0])
 

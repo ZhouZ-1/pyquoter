@@ -13,8 +13,7 @@ class TestDataBase(unittest.TestCase):
         quote = quotes[0]
         self.assertTrue(quote.quote == 'test_quote0')
         self.assertTrue(quote.author == 'test_author0')
-        print(quote.date)
-        self.assertEqual(quote.date, '2020-11-01 00:00:00')
+        self.assertEqual(quote.date, datetime.datetime.strptime('11/01/2020', '%m/%d/%Y').date())
         self.assertTrue(quote.quote_id == 1)
 
     def test_query_author(self):
@@ -45,7 +44,8 @@ class TestDataBase(unittest.TestCase):
         create_dummy_data(4)
         quotes = query_tag("tag")
         self.assertEqual(len(quotes), 4)
-        insert_quote(Quote('quote', 'auth', '200', tags=['tag0']))
+        date = datetime.datetime.strptime('11/10/2020', '%m/%d/%Y').date()
+        insert_quote(Quote('quote', 'auth', date, tags=['tag0']))
         quotes = query_tag("tag0")
         self.assertEqual(len(quotes), 2)
 
@@ -53,14 +53,15 @@ class TestDataBase(unittest.TestCase):
         create_dummy_data(4)
         tags = query_all_tags()
         self.assertEqual(len(tags['tag']), 4)
-        insert_quote(Quote('quote', 'auth', '200', tags=['tag0']))
+        date = datetime.datetime.strptime('11/10/2020', '%m/%d/%Y').date()
+        insert_quote(Quote('quote', 'auth', date, tags=['tag0']))
         tags = query_all_tags()
         self.assertEqual(len(tags['tag0']), 2)
 
 def create_dummy_data(num: int):
     reset_db()
     for i in range(num):
-        date = datetime.datetime.strptime('11/%d/2020' % (i+1), '%m/%d/%Y')
+        date = datetime.datetime.strptime('11/%d/2020' % (i+1), '%m/%d/%Y').date()
         quote = Quote('test_quote%d' % i, 'test_author%d' % i,
                       date, tags=['tag', 'tag%d' % i])
         insert_quote(quote)
