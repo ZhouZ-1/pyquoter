@@ -1,5 +1,5 @@
 class Quote:
-    def __init__(self, quote: str, author='', date='', quote_id = None, tags=[]):
+    def __init__(self, quote: str, author='', date=None, quote_id = None, tags=[]):
         self.quote = quote
         self.preview = quote[0:24] + '...'
         self.author = author
@@ -11,10 +11,4 @@ class Quote:
         return self.quote
 
     def __repr__(self):
-        return '''
-ID: %d
-Quote: %s
-Author: %s
-Date: %s
-''' % (self.quote_id, self.quote, self.author, self.date)
-
+        return "[{}] {}".format(self.quote_id, self.preview)
