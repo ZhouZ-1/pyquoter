@@ -47,7 +47,7 @@ def insert_quote(quote: Quote):
 def delete_quote_id(quote_id: int):
     execute_command(delete_quote_command, (quote_id,))
 
-def all_quotes():
+def query_all():
     response = []
     quotes = execute_command(query_all_command)
     for quote in quotes:

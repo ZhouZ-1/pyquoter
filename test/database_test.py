@@ -7,7 +7,7 @@ class TestDataBase(unittest.TestCase):
 
     def test_insertion(self):
         create_dummy_data(1)
-        quotes = all_quotes()
+        quotes = query_all()
         self.assertTrue(len(quotes) > 0)
         quote = quotes[0]
         self.assertTrue(quote.quote == 'test_quote0')
@@ -34,7 +34,7 @@ class TestDataBase(unittest.TestCase):
     def test_delete_quote(self):
         create_dummy_data(4)
         delete_quote_id(2)
-        quotes = all_quotes()
+        quotes = query_all()
         self.assertEqual(len(quotes), 3)
         quotes = query_quotes('quote1')
         self.assertEqual(len(quotes), 0)
