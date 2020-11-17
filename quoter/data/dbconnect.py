@@ -24,6 +24,12 @@ command.execute(create_tags_command)
 insert_quote_command = "INSERT INTO quotes(quote, author, date) VALUES (?, ?, ?)"
 insert_tag_command = "INSERT INTO tags(tag, quote_id) VALUES (?, ?)"
 query_all_command = 'SELECT * FROM quotes;'
+query_tag_command = '''SELECT q.id, q.quote, q.author, q.date
+                    FROM quotes as q
+                    JOIN tags AS t
+                    ON q.id = t.quote_id
+                    WHERE t.tag = ?;
+                    '''
 drop_table_command = 'DROP TABLE IF EXISTS quotes;'
 drop_tags_command = 'DROP TABLE IF EXISTS tags'
 query_author_command = 'SELECT * FROM quotes WHERE author LIKE ?'
@@ -36,7 +42,6 @@ def insert_quote(quote: Quote):
     quote.quote_id = execute_command(select_last_id_command).lastrowid
     tags = quote.tags;
     for t in tags:
-        print('Adding tag: ' + t)
         execute_command(insert_tag_command, (t, quote.quote_id))
 
 def delete_quote_id(quote_id: int):
@@ -52,6 +57,13 @@ def all_quotes():
 def query_author(author: str):
     response = []
     quotes = execute_command(query_author_command, ('%' + author + '%',))
+    for quote in quotes:
+        response.append(_create_quote(quote))
+    return response
+
+def query_tag(tag: str):
+    response = []
+    quotes = execute_command(query_tag_command, (tag,))
     for quote in quotes:
         response.append(_create_quote(quote))
     return response
