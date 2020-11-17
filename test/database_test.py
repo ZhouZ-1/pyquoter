@@ -1,4 +1,5 @@
 import unittest
+import datetime
 
 from quoter.data import *
 from quoter.model import *
@@ -12,7 +13,8 @@ class TestDataBase(unittest.TestCase):
         quote = quotes[0]
         self.assertTrue(quote.quote == 'test_quote0')
         self.assertTrue(quote.author == 'test_author0')
-        self.assertTrue(quote.date == '2000-01-01 10:00:00')
+        print(quote.date)
+        self.assertEqual(quote.date, '2020-11-01 00:00:00')
         self.assertTrue(quote.quote_id == 1)
 
     def test_query_author(self):
@@ -58,8 +60,9 @@ class TestDataBase(unittest.TestCase):
 def create_dummy_data(num: int):
     reset_db()
     for i in range(num):
+        date = datetime.datetime.strptime('11/%d/2020' % (i+1), '%m/%d/%Y')
         quote = Quote('test_quote%d' % i, 'test_author%d' % i,
-                      '2000-01-01 10:00:0%d' % i, tags=['tag', 'tag%d' % i])
+                      date, tags=['tag', 'tag%d' % i])
         insert_quote(quote)
 
 
