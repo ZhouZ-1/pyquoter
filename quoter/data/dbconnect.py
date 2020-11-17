@@ -30,6 +30,12 @@ query_tag_command = '''SELECT q.id, q.quote, q.author, q.date
                     ON q.id = t.quote_id
                     WHERE t.tag = ?;
                     '''
+query_all_tags_command = '''SELECT t.tag, q.*
+                        FROM quotes as q
+                        JOIN tags as t
+                        ON t.quote_id = q.id
+                        ORDER BY t.tag;
+                        '''
 drop_table_command = 'DROP TABLE IF EXISTS quotes;'
 drop_tags_command = 'DROP TABLE IF EXISTS tags'
 query_author_command = 'SELECT * FROM quotes WHERE author LIKE ?'
@@ -66,6 +72,15 @@ def query_tag(tag: str):
     quotes = execute_command(query_tag_command, (tag,))
     for quote in quotes:
         response.append(_create_quote(quote))
+    return response
+
+def query_all_tags():
+    response = {}
+    tags = execute_command(query_all_tags_command)
+    for tag in tags:
+        quote = _create_quote(tag[1:])
+        response.setdefault(tag[0], [])
+        response[tag[0]].append(quote)
     return response
 
 def query_quotes(quote: str):
