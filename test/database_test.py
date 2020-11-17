@@ -39,11 +39,19 @@ class TestDataBase(unittest.TestCase):
         quotes = query_quotes('quote1')
         self.assertEqual(len(quotes), 0)
 
+    def test_tags(self):
+        create_dummy_data(4)
+        quotes = query_tag("tag")
+        self.assertEqual(len(quotes), 4)
+        insert_quote(Quote('quote', 'auth', '200', tags=['tag0']))
+        quotes = query_tag("tag0")
+        self.assertEqual(len(quotes), 2)
+
 def create_dummy_data(num: int):
     reset_db()
     for i in range(num):
         quote = Quote('test_quote%d' % i, 'test_author%d' % i,
-                      '2000-01-01 10:00:0%d' % i)
+                      '2000-01-01 10:00:0%d' % i, tags=['tag', 'tag%d' % i])
         insert_quote(quote)
 
 
