@@ -10,7 +10,7 @@ command = conn.cursor()
 create_table_command = '''CREATE TABLE IF NOT EXISTS quotes (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 quote TEXT,
-                author TEXT,
+                author TEXT DEFAULT 'Unkown',
                 date DATE);
                 '''
 create_tags_command = '''CREATE TABLE IF NOT EXISTS tags (

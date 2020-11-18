@@ -1,5 +1,5 @@
 class Quote:
-    def __init__(self, quote: str, author='', date=None, quote_id = None, tags=[]):
+    def __init__(self, quote: str, author='Unkown', date=None, quote_id = None, tags=[]):
         self.quote = quote
         self.preview = quote[0:24] + '...'
         self.author = author
