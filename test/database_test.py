@@ -58,6 +58,11 @@ class TestDataBase(unittest.TestCase):
         tags = query_all_tags()
         self.assertEqual(len(tags['tag0']), 2)
 
+    def test_none(self):
+        insert_quote(Quote('',''))
+        quotes = query_all()
+        print(quotes)
+
 def create_dummy_data(num: int):
     reset_db()
     for i in range(num):
