@@ -112,6 +112,6 @@ def execute_command(request, params=()):
         return []
 
 def _create_quote(row):
-    date = datetime.datetime.fromisoformat(row[3]).date()
+    date = None if row[3] is None else datetime.datetime.fromisoformat(row[3]).date()
     return Quote(row[1], row[2], date, row[0])
 
