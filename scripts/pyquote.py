@@ -37,17 +37,19 @@ def print_quotes(quotes):
         print(base.format(quote.quote_id, quote.quote, quote.author, date))
 
 def main():
-    parser = argparse.ArgumentParser(description='Save and view your favorite quotes on the commandline!')
+    parser = argparse.ArgumentParser(
+        description='Save and view your favorite quotes on the commandline!',
+        epilog='Pass a -f flag to turn a quote insertion into a search, all flags besides date support this.')
     parser.add_argument('-q', '--quote', type=str, nargs='?', help='The quote text to save/search for')
     parser.add_argument('-a', '--author', type=str, nargs='?', help='The author to save with'
-                                                                'the quote or search for')
-    parser.add_argument('-t', '--tags', type=str, nargs='+', help='Tags to associate the quote with for'
-                                                                'later searching/tag to search for')
-    parser.add_argument('-i', '--id', type=int, nargs='?', help='The quote_id to query for')
-    parser.add_argument('-d', '--date', type=str, nargs='?', help='The date this quote was created in'
+                                                                '/the author to search for')
+    parser.add_argument('-t', '--tags', type=str, nargs='+', help='Tags to associate the quote with for '
+                                                                'later searching/the tag to search for')
+    parser.add_argument('-i', '--id', type=int, nargs='?', help='The quote_id to query for (use with -f)')
+    parser.add_argument('-d', '--date', type=str, nargs='?', help='The date this quote was created in '
                                                                 'month/day/YEAR format')
     parser.add_argument('-f', '--find', action='store_true', help='Search for quotes')
-    parser.add_argument('--delete', type=int, nargs='?', help='Delete a quote based on id')
+    parser.add_argument('--delete', metavar='ID', type=int, nargs='?', help='Delete a quote based on id')
     args = parser.parse_args()
     if(args.find):
         find_quote(args)
