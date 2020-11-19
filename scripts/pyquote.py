@@ -26,10 +26,13 @@ def find_quote(args):
         quotes = query_tag(args.tags[0])
     else:
         quotes = query_all()
-    base = "[{}] {}\n - {} {}"
-    for quote in quotes:
-        print(base.format(quote.quote_id, quote.quote, quote.author, quote.date))
+    print_quotes(quotes)
 
+def print_quotes(quotes):
+    base = "[{}] {}\n - {} {}\n"
+    for quote in quotes:
+        date = '' if quote.date is None else '{0:%m}/{0:%d}/{0:%Y}'.format(quote.date)
+        print(base.format(quote.quote_id, quote.quote, quote.author, date))
 
 
 def main():
