@@ -29,7 +29,7 @@ query_tag_command = '''SELECT q.id, q.quote, q.author, q.date
                     FROM quotes as q
                     JOIN tags AS t
                     ON q.id = t.quote_id
-                    WHERE t.tag = ?;
+                    WHERE t.tag LIKE ?;
                     '''
 query_all_tags_command = '''SELECT t.tag, q.*
                         FROM quotes as q
@@ -70,7 +70,7 @@ def query_author(author: str):
 
 def query_tag(tag: str):
     response = []
-    quotes = execute_command(query_tag_command, (tag,))
+    quotes = execute_command(query_tag_command, ('%' + tag + '%',))
     for quote in quotes:
         response.append(_create_quote(quote))
     return response
