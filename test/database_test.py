@@ -61,7 +61,11 @@ class TestDataBase(unittest.TestCase):
     def test_none(self):
         insert_quote(Quote('',''))
         quotes = query_all()
-        print(quotes)
+
+    def test_query_id(self):
+        create_dummy_data(4)
+        quote = query_id(0)
+        self.assertIsNotNone(quote)
 
 def create_dummy_data(num: int):
     reset_db()
