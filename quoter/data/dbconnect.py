@@ -31,6 +31,7 @@ query_tag_command = '''SELECT q.id, q.quote, q.author, q.date
                     ON q.id = t.quote_id
                     WHERE t.tag LIKE ?;
                     '''
+query_id_command = "SELECT * FROM quotes WHERE id = ?"
 query_all_tags_command = '''SELECT t.tag, q.*
                         FROM quotes as q
                         JOIN tags as t
@@ -60,6 +61,13 @@ def query_all():
     for quote in quotes:
         response.append(_create_quote(quote))
     return response
+
+def query_id(qid: int):
+    quote = execute_command(query_id_command, qid)
+    if (quote is not None):
+        return _create_quote(quote)
+    else:
+        return None
 
 def query_author(author: str):
     response = []
