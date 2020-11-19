@@ -63,11 +63,9 @@ def query_all():
     return response
 
 def query_id(qid: int):
-    quote = execute_command(query_id_command, qid)
-    if (quote is not None):
+    quotes = execute_command(query_id_command, (qid,))
+    for quote in quotes:
         return _create_quote(quote)
-    else:
-        return None
 
 def query_author(author: str):
     response = []
