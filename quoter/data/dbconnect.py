@@ -3,8 +3,10 @@ import datetime
 import os
 from ..model import Quote
 
-path = os.path.dirname(os.path.abspath(__file__))
-conn = sqlite3.connect(path + '/data.db')
+path = os.path.join(os.getenv("HOME"), ".pyquoter")
+if not os.path.exists(path):
+    os.makedirs(path)
+conn = sqlite3.connect(path + "/data.db")
 command = conn.cursor()
 
 create_table_command = '''CREATE TABLE IF NOT EXISTS quotes (
