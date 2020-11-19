@@ -42,8 +42,6 @@ class TestDataBase(unittest.TestCase):
 
     def test_tags(self):
         create_dummy_data(4)
-        quotes = query_tag("tag")
-        self.assertEqual(len(quotes), 4)
         date = datetime.datetime.strptime('11/10/2020', '%m/%d/%Y').date()
         insert_quote(Quote('quote', 'auth', date, tags=['tag0']))
         quotes = query_tag("tag0")
@@ -64,7 +62,7 @@ class TestDataBase(unittest.TestCase):
 
     def test_query_id(self):
         create_dummy_data(4)
-        quote = query_id(0)
+        quote = query_id(1)
         self.assertIsNotNone(quote)
 
 def create_dummy_data(num: int):
