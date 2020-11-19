@@ -20,6 +20,8 @@ def delete_quote(num: int):
 def find_quote(args):
     if(args.quote is not None):
         quotes = query_quotes(args.quote)
+    elif (args.id is not None):
+        quotes = [query_id(args.id)]
     elif(args.author is not None):
         quotes = query_author(args.author)
     elif (args.tags is not None):
@@ -34,7 +36,6 @@ def print_quotes(quotes):
         date = '' if quote.date is None else '{0:%m}/{0:%d}/{0:%Y}'.format(quote.date)
         print(base.format(quote.quote_id, quote.quote, quote.author, date))
 
-
 def main():
     parser = argparse.ArgumentParser(description='Save and view your favorite quotes on the commandline!')
     parser.add_argument('-q', '--quote', type=str, nargs='?', help='The quote text to save/search for')
@@ -42,6 +43,7 @@ def main():
                                                                 'the quote or search for')
     parser.add_argument('-t', '--tags', type=str, nargs='+', help='Tags to associate the quote with for'
                                                                 'later searching/tag to search for')
+    parser.add_argument('-i', '--id', type=int, nargs='?', help='The quote_id to query for')
     parser.add_argument('-d', '--date', type=str, nargs='?', help='The date this quote was created in'
                                                                 'month/day/YEAR format')
     parser.add_argument('-f', '--find', action='store_true', help='Search for quotes')
@@ -51,7 +53,7 @@ def main():
         find_quote(args)
     elif(args.delete):
         delete_quote(args.delete)
-    else:
+    elif(args.quote is not None):
         save_quote(args)
 
 if __name__ == "__main__":
