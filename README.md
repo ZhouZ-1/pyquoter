@@ -32,6 +32,12 @@ pyquoter -f -t inspirational # Outputs any quote tagged with the world inspirati
 pyquoter -f # Outputs all the quotes
 ```
 
+Sample output:
+```
+[3] Pyquoter is alright I guess
+ - Josh 11/20/2020
+```
+
 ### Deleting quotes
 If you have a quote that you think isn't up to par, you can delete it by referencing its ID
 ```bash
@@ -42,4 +48,5 @@ pyquoter --delete 1 # Deletes the quote with an ID of 1
 ## Creating an Alias
 Typing pyquoter may be a bit verbose so if you have a .bashrc add the line
 ```alias pq=pyquoter``` 
+
 
