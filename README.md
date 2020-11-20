@@ -28,6 +28,8 @@ pyquoter -f -a "Abraham" # Outputs quotes with any author the word "Abraham" in 
 pyquoter -f -i 1 # Outputs the quote with an ID of 1
 
 pyquoter -f -t inspirational # Outputs any quote tagged with the world inspirational
+
+pyquoter -f # Outputs all the quotes
 ```
 
 ### Deleting quotes
