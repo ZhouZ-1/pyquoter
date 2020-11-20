@@ -35,7 +35,8 @@ def print_quotes(quotes):
     base = "[{}] {}\n - {} {}\n"
     for quote in quotes:
         date = '' if quote.date is None else '{0:%m}/{0:%d}/{0:%Y}'.format(quote.date)
-        print(base.format(quote.quote_id, quote.quote, quote.author, date))
+        author = 'Unkown' if quote.author is None else quote.author
+        print(base.format(quote.quote_id, quote.quote, author, date))
 
 def main():
     parser = argparse.ArgumentParser(
